@@ -6,14 +6,31 @@ import { HttpClient } from '@angular/common/http';
 export class HttpService {
 
   constructor(private _http: HttpClient){
-      this.getTasks();
+      // this.createNinja("Happy Ninja");
+      // this.farm("5aaad34d68baff207095d4f2");
+      // this.cave("5aaad34d68baff207095d4f2");
+      // this.house("5aaad34d68baff207095d4f2");
+      this.casino("5aaad34d68baff207095d4f2");
   }
 
-  getTasks(){
-    // our http response is an Observable, store it in a variable
-    let tempObservable = this._http.get('/tasks');
-    // subscribe to the Observable and provide the code we would like to do with our data from the response
-    tempObservable.subscribe(data => console.log("Got our tasks!", data));
- }
- 
+  createNinja(name){
+    let ninja = this._http.post('/ninja', {name: name});
+    ninja.subscribe(data => console.log("Successfully created a ninja!", data));
+  }
+  farm(id){
+    let total = this._http.get('/farm/' + id);
+    total.subscribe(data => console.log("FARM SUCCESS", data));
+  }
+  cave(id){
+    let total = this._http.get('/cave/' + id);
+    total.subscribe(data => console.log("CAVE SUCCESS", data));
+  }
+  house(id){
+    let total = this._http.get('/house/' + id);
+    total.subscribe(data => console.log("HOUSE SUCCESS", data));
+  }
+  casino(id){
+    let total = this._http.get('/casino/' + id);
+    total.subscribe(data => console.log("CASINO SUCCESS", data));
+  }
 }
