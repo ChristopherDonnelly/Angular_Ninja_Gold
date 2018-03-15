@@ -54,15 +54,28 @@ app.get('/', function(req, res) {
     });
 });
 
-// create ninja
+// find & login OR create new ninja
 app.post('/ninja', function(req, res){
     console.log("POST DATA", req.body, "inside create ninja route")
-    Ninja.create({name: req.body.name}, function(err, ninja){
-        if (err){
-            res.json({message: "Error while creating ninja", error: err })
+    // check w/name if ninja already exists in db
+    Ninja.findOne({name: req.body.name}, function(err, ninja){
+        if (err) {
+            res.json({message: "Error @ create ninja", error: err });
         }
-        else{
-            res.json({message: "Successfully created ninja", new_ninja: ninja});
+        // if ninja not in db, create ninja
+        else if (!ninja) {
+            Ninja.create({name: req.body.name}, function(err, ninja){
+                if (err){
+                    res.json({message: "Error while creating ninja", error: err })
+                }
+                else {
+                    res.json({message: "Successfully created ninja", ninja: ninja});
+                }
+            });
+        }
+        // else, ninja already exists => don't create
+        else {
+            res.json({message: "Successfully found ninja", ninja: ninja});
         }
     });
 });
