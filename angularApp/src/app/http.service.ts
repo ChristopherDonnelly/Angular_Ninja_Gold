@@ -5,32 +5,21 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class HttpService {
 
-  constructor(private _http: HttpClient){
-      // this.createNinja("Happy Ninja");
-      // this.farm("5aaad34d68baff207095d4f2");
-      // this.cave("5aaad34d68baff207095d4f2");
-      // this.house("5aaad34d68baff207095d4f2");
-      this.casino("5aaad34d68baff207095d4f2");
-  }
+  constructor(private _http: HttpClient){ }
 
   createNinja(name){
-    let ninja = this._http.post('/ninja', {name: name});
-    ninja.subscribe(data => console.log("Successfully created a ninja!", data));
+    return this._http.post('/ninja', {name: name});
   }
   farm(id){
-    let total = this._http.get('/farm/' + id);
-    total.subscribe(data => console.log("FARM SUCCESS", data));
+    return this._http.get('/farm/' + id);
   }
   cave(id){
-    let total = this._http.get('/cave/' + id);
-    total.subscribe(data => console.log("CAVE SUCCESS", data));
+    return this._http.get('/cave/' + id);
   }
   house(id){
-    let total = this._http.get('/house/' + id);
-    total.subscribe(data => console.log("HOUSE SUCCESS", data));
+    return this._http.get('/house/' + id);
   }
   casino(id){
-    let total = this._http.get('/casino/' + id);
-    total.subscribe(data => console.log("CASINO SUCCESS", data));
+    return this._http.get('/casino/' + id);
   }
 }

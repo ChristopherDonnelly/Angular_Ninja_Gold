@@ -3,38 +3,40 @@
     <h1>Ninja Gold</h1>
   </div>
 
-  <form (submit)="login()">
+  <form (submit)="login()" *ngIf="!id">
     <input type="text" name="ninja.name" [(ngModel)]="ninja.name" placeholder="Enter your name">
     <input type="submit" value="Login" />
   </form>
-
-  <h2>Total Gold: {{ gold }}</h2>
-  
-  <div id="ninja_methods">
-    <div class="method">
-      <p><strong>Farm</strong></p>
-      <p>Earns 2-5 gold</p>
-      <button (click) = "farm()">Farm</button>
+  <h2 *ngIf="id">{{ninja.name}}</h2>
+  <div id="game_layer" *ngIf="id">
+    <h2>Total Gold: {{ gold }}</h2>
+    
+    <div id="ninja_methods">
+      <div class="method">
+        <p><strong>Farm</strong></p>
+        <p>Earns 2-5 gold</p>
+        <button (click) = "farm()">Farm</button>
+      </div>
+      <div class="method">
+        <p><strong>Cave</strong></p>
+        <p>Earns 5-10 gold</p>
+        <button (click) = "cave()">Explore</button>
+      </div>
+      <div class="method">
+        <p><strong>House</strong></p>
+        <p>Earns 7-15 gold</p>
+        <button (click) = "house()">Craft</button>
+      </div>
+      <div class="method">
+        <p><strong>Casino</strong></p>
+        <p>Earn or lose up to 100 gold</p>
+        <button (click) = "casino()">Gamble</button>
+      </div>
     </div>
-    <div class="method">
-      <p><strong>Cave</strong></p>
-      <p>Earns 5-10 gold</p>
-      <button (click) = "cave()">Explore</button>
+    <h2>Adventure Log:</h2>
+    <div id="adventure_log">
+      <p *ngFor="let message of messages.reverse()">{{message}}</p>
     </div>
-    <div class="method">
-      <p><strong>House</strong></p>
-      <p>Earns 7-15 gold</p>
-      <button (click) = "house()">Craft</button>
-    </div>
-    <div class="method">
-      <p><strong>Casino</strong></p>
-      <p>Earn or lose up to 100 gold</p>
-      <button (click) = "casino()">Gamble</button>
-    </div>
-  </div>
-  <h2>Adventure Log:</h2>
-  <div id="adventure_log">
-    <p *ngFor="let message of messages.reverse()">{{message}}</p>
   </div>
 </div>
 

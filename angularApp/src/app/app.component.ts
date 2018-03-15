@@ -8,7 +8,7 @@ import { HttpService } from './http.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  gold = 100;
+  gold = 0;
   messages = [];
   ninja: any; //name = '';
   id = '';
@@ -22,45 +22,51 @@ export class AppComponent {
   }
 
   login(){
-    //this.ninja = name;
-    console.log(this.ninja.name)
+    let ninja = this._httpService.createNinja(this.ninja.name);
 
-    // let ninja = this._httpService.createNinja(name);
-
-    // ninja.subscribe(data => {
-    //   this.name = data.new_ninja.name ;
-    //   this.gold = data.new_ninja.total;
-    //   this.id = data.new_ninja._id;
-    // });
+    ninja.subscribe(data => {
+      this.gold = data.ninja.total;
+      this.id = data.ninja._id;
+    });
   }
+  
   farm(){
-    // console.log('Start Farming!')
-    // let wages = Math.floor(Math.random() * (5 - 2 + 1) + 2);
-    // this.messages.push(`You earned ${wages} while working on the Farm.`);
-    // this.gold += wages;
     let total = this._httpService.farm(this.id);
 
-    total.subscribe(data => console.log("FARM SUCCESS", data));
+    total.subscribe(data => {
+      this.gold = data.ninja.total;
+      this.messages.push(data.message);
+      console.log("FARM SUCCESS", data)
+    });
   }
-  house(){
-    // console.log('Start Crafting!')
-    // let wages = Math.floor(Math.random() * (10 - 5 + 1) + 5);
-    // this.messages.push(`You earned ${wages} while crafting at your House.`);
-    // this.gold += wages;
-  }
+
   cave(){
-    // console.log('Start exploring!')
-    // let treasures = Math.floor(Math.random() * (15 - 7 + 1) + 7);
-    // this.messages.push(`You earned ${treasures} while exploring the Cave.`);
-    // this.gold += treasures;
+    let total = this._httpService.cave(this.id);
+
+    total.subscribe(data => {
+      this.gold = data.ninja.total;
+      this.messages.push(data.message);
+      console.log("CAVE SUCCESS", data)
+    });
   }
+  
+  house(){
+    let total = this._httpService.house(this.id);
+
+    total.subscribe(data => {
+      this.gold = data.ninja.total;
+      this.messages.push(data.message);
+      console.log("HOUSE SUCCESS", data)
+    });
+  }
+
   casino(){
-    // console.log('Start gambling!')
-    // let winnings = Math.floor(Math.random() * (100 - 0 + 1) + 0);
-    // let coinFlip = Math.floor(Math.random() * (1 - 0 + 1) + 0);
-    // if(coinFlip) winnings *= -1;
-    // console.log(coinFlip)
-    // this.messages.push(`You earned ${winnings} while gambling at the Casino!`);
-    // this.gold += winnings;
+    let total = this._httpService.casino(this.id);
+
+    total.subscribe(data => {
+      this.gold = data.ninja.total;
+      this.messages.push(data.message);
+      console.log("CASINO SUCCESS", data)
+    });
   } 
 }

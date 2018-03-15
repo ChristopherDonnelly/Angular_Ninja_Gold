@@ -56,7 +56,6 @@ app.get('/', function(req, res) {
 
 // find & login OR create new ninja
 app.post('/ninja', function(req, res){
-    console.log("POST DATA", req.body, "inside create ninja route")
     // check w/name if ninja already exists in db
     Ninja.findOne({name: req.body.name}, function(err, ninja){
         if (err) {
@@ -88,11 +87,14 @@ app.get('/farm/:id', function(req, res){
         }
         else {
             // earn 2 - 5 gold  - INCLUSIVE (Math.random() * (max - min + 1) + min)
-            ninja.total += Math.floor(Math.random() * (5 - 2 + 1) + 2);
-            res.json({message: "Ninja successfully farmed!", ninja: ninja})
+            let wages = Math.floor(Math.random() * (5 - 2 + 1) + 2);
+            ninja.total += wages;
+            ninja.save();
+            res.json({message: `${ninja.name} earned ${wages} while working on the Farm.`, ninja: ninja})
         }
     });
 });
+
 app.get('/cave/:id', function(req, res){
     Ninja.findOne({_id: req.params.id}, function(err, ninja){
         if (err) {
@@ -100,11 +102,14 @@ app.get('/cave/:id', function(req, res){
         }
         else {
             // earn 5 - 10 gold 
-            ninja.total += Math.floor(Math.random() * (10 - 5 + 1) + 5);
-            res.json({message: "Ninja successfully found cave!", ninja: ninja})
+            let treasures = Math.floor(Math.random() * (10 - 5 + 1) + 5);
+            ninja.total += treasures;
+            ninja.save();
+            res.json({message: `${ninja.name} earned ${treasures} while exploring the Cave.`, ninja: ninja})
         }
     });
 });
+
 app.get('/house/:id', function(req, res){
     Ninja.findOne({_id: req.params.id}, function(err, ninja){
         if (err) {
@@ -112,29 +117,37 @@ app.get('/house/:id', function(req, res){
         }
         else {
             // earn 7 - 15 gold 
-            ninja.total += Math.floor(Math.random() * (15 - 7 + 1) + 7);
-            res.json({message: "Ninja successfully found house!", ninja: ninja})
+            let wages = Math.floor(Math.random() * (15 - 7 + 1) + 7);
+            ninja.total += wages;
+            ninja.save();
+            res.json({message: `${ninja.name} earned ${wages} while crafting at your House.`, ninja: ninja})
         }
     });
 });
+
 app.get('/casino/:id', function(req, res){
     Ninja.findOne({_id: req.params.id}, function(err, ninja){
         if (err) {
-            res.json({message: "Error finding ninja at farm", error: err});
+            res.json({message: "Error finding ninja at casino", error: err});
         }
         else {
-            // earn  or lose up to 100 gold
-            let coin_flip = (Math.floor(Math.random() * 1) + 1);
-            // coin flip betwee 0 & 1
-            if (coin_flip === 0 ){
+            let winnings = (Math.floor(Math.random() * 100 + 1));
+            let earnedLost = 'earned';
+            // earn or lose up to 100 gold
+            let coin_flip = (Math.floor(Math.random() * 2));
+            // coin flip between 0 & 1
+            if (coin_flip === 0){
                 // LOSE up to 100 gold
-                ninja.total += (Math.floor(Math.random() * 100 + 1));
+                earnedLost = 'lost';
+                ninja.total -= winnings;
+                winnings *= -1;
             }
             else {
                 // EARN up to 100 gold
-                ninja.total += (Math.floor(Math.random() * 100 + 1));
+                ninja.total += winnings;
             }
-            res.json({message: "Successfully found ninja at farm!", ninja: ninja})
+            ninja.save();
+            res.json({message: `${ninja.name} ${earnedLost} ${winnings} while gambling at the Casino!`, ninja: ninja})
         }
     });
 });
