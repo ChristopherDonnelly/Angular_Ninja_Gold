@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 
 import { HttpService } from './http.service';
 
@@ -10,16 +10,37 @@ import { HttpService } from './http.service';
 export class AppComponent {
   gold = 100;
   messages = [];
+  ninja: any; //name = '';
+  id = '';
 
   constructor(private _httpService: HttpService){
-
+    
   }
-  
+
+  ngOnInit() {
+    this.ninja = { name: "" }
+  }
+
+  login(){
+    //this.ninja = name;
+    console.log(this.ninja.name)
+
+    // let ninja = this._httpService.createNinja(name);
+
+    // ninja.subscribe(data => {
+    //   this.name = data.new_ninja.name ;
+    //   this.gold = data.new_ninja.total;
+    //   this.id = data.new_ninja._id;
+    // });
+  }
   farm(){
     // console.log('Start Farming!')
     // let wages = Math.floor(Math.random() * (5 - 2 + 1) + 2);
     // this.messages.push(`You earned ${wages} while working on the Farm.`);
     // this.gold += wages;
+    let total = this._httpService.farm(this.id);
+
+    total.subscribe(data => console.log("FARM SUCCESS", data));
   }
   house(){
     // console.log('Start Crafting!')

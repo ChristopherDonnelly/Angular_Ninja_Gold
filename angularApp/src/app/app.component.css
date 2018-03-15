@@ -28,7 +28,12 @@
     text-align: center;
 }
 
-#wrapper .method button {
+#wrapper input {
+    height: 26px;
+    padding: 0px 5px;
+}
+
+#wrapper .method button, #wrapper input[type="submit"] {
     width: 100px;
     height: 30px;
     margin: 0px auto !important;

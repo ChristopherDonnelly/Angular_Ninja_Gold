@@ -2,8 +2,14 @@
   <div style="text-align:center">
     <h1>Ninja Gold</h1>
   </div>
+
+  <form (submit)="login()">
+    <input type="text" name="ninja.name" [(ngModel)]="ninja.name" placeholder="Enter your name">
+    <input type="submit" value="Login" />
+  </form>
+
   <h2>Total Gold: {{ gold }}</h2>
-  <input type="hidden" [id]="session_id">
+  
   <div id="ninja_methods">
     <div class="method">
       <p><strong>Farm</strong></p>
